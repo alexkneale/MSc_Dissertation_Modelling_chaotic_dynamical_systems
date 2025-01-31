@@ -1,0 +1,2 @@
+Matplotlib created a temporary cache directory at /dev/shm/akneale_5873886/matplotlib-_ivwdxkg because the default path (/home/sc130/sc130/akneale/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+success

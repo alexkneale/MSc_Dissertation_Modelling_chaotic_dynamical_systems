@@ -1,0 +1,10 @@
+Matplotlib created a temporary cache directory at /dev/shm/akneale_5866177/matplotlib-gts78455 because the default path (/home/sc130/sc130/akneale/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Covariance Matrix deterministic: 
+[[62.77756565 62.77825832 -0.39973573]
+ [62.77825832 81.22805098 -0.31911692]
+ [-0.39973573 -0.31911692 74.41442627]]
+Covariance Matrix neural network: 
+[[62.87553169 62.87696464  0.4706063 ]
+ [62.87696464 80.96266119  0.37597755]
+ [ 0.4706063   0.37597755 73.3130977 ]]
+success

@@ -1,0 +1,17 @@
+2024-08-08 21:09:19.099692: I tensorflow/core/util/port.cc:111] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-08-08 21:09:24.946599: E tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:9342] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-08-08 21:09:24.947099: E tensorflow/compiler/xla/stream_executor/cuda/cuda_fft.cc:609] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-08-08 21:09:24.972144: E tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:1518] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-08-08 21:09:27.445995: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-08-08 21:11:21.705451: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1886] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 14784 MB memory:  -> device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:88:00.0, compute capability: 7.0
+2024-08-08 21:11:36.860077: I tensorflow/core/util/cuda_solvers.cc:179] Creating GpuSolver handles for stream 0x555d0ffabf60
+Model loaded.
+Traceback (most recent call last):
+  File "/mnt/lustre/e1000/home/sc130/sc130/akneale/63/single_diag/full_model/collecting_data.py", line 132, in <module>
+    neural_network_trajectories(model, n_particles_test, dt, n_steps, Xscaler, Yscaler)
+  File "/mnt/lustre/e1000/home/sc130/sc130/akneale/63/single_diag/full_model/collecting_data.py", line 128, in neural_network_trajectories
+    np.savetxt(f'{MODEL_DIR}/traj_nn.csv', traj_nn_np, delimiter=',')
+  File "/work/y07/shared/cirrus-software/miniconda3/4.12.0-py39/lib/python3.9/site-packages/numpy/lib/npyio.py", line 1556, in savetxt
+    open(fname, 'wt').close()
+FileNotFoundError: [Errno 2] No such file or directory: 'models/ML_NC1_e7_e-5_8192_150_e7_t=e2e5_d=e2e5//traj_nn.csv'
