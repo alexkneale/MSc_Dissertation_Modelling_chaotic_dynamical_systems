@@ -1,0 +1,127 @@
+import numpy as np
+import tensorflow as tf
+import tensorflow_probability as tfp
+from tensorflow_probability import distributions as tfd
+from tensorflow.keras import callbacks as cb
+from pathlib import Path
+import pickle
+tf.keras.backend.set_floatx("float64")
+
+
+import numba
+from numba import jit
+
+from l96 import integrate_reduced_l96
+from l96 import integrate_l96
+
+from l63 import integrate_l63
+
+from preprocessing import Scaler
+from data_generator_96_reduced_nn import x0_dx0_array_96_reduced
+
+from data_display_96_reduced import lorenz_96_reduced_data_generation
+import csv
+
+# Model hyperparameters
+
+N_C = 32
+n_steps_train = int(1e7)
+n_steps_train_str = 'e7'
+BATCH_SIZE = int(2**15)
+LEARNING_RATE = 1e-5
+LEARNING_RATE_str = 'e-5'
+PATIENCE = 200
+test_steps = 1e7
+test_steps_str = 'e7'
+K = 8
+EPOCHS = 5000
+test_particles = 100
+test_particles_str = 'd=e2e5'
+train_particles = 100
+train_particles_str = 't=e2e5'
+
+MODEL_DIR = (f"models/NC{N_C}_{n_steps_train_str}_{LEARNING_RATE_str}_{BATCH_SIZE}_{PATIENCE}_{test_steps_str}_{K}_{train_particles_str}_{test_particles_str}/")
+
+if not Path(MODEL_DIR).exists():
+    Path(MODEL_DIR).mkdir(parents=True)
+
+
+# --- PREPARE DATA ---
+dt = 0.001
+
+X,Y = x0_dx0_array_96_reduced(dt, n_steps_train,N_C, n_steps_train_str, LEARNING_RATE_str, BATCH_SIZE, PATIENCE, test_steps_str,K,test_particles_str, train_particles, train_particles_str)
+
+Xscaler = Scaler(X)
+Yscaler = Scaler(Y)
+
+X_ = Xscaler.standardise(X)
+Y_ = Yscaler.standardise(Y)
+del X, Y
+
+with open(MODEL_DIR + r"Xscaler.pkl", "wb") as file:
+    pickle.dump(Xscaler, file)
+
+with open(MODEL_DIR + r"Yscaler.pkl", "wb") as file:
+    pickle.dump(Yscaler, file)
+    
+tfkl = tf.keras.layers
+tfpl = tfp.layers
+tfd = tfp.distributions
+print("Loaded the libraries.")
+print(tf.config.list_physical_devices())
+
+
+# --- BUILD MODEL ---
+
+model = tf.keras.Sequential(
+    [tfkl.Dense(256, activation='tanh', use_bias = True),
+    tfkl.Dense(256, activation='tanh', use_bias = True),
+    tfkl.Dense(256, activation='tanh', use_bias = True),
+    tfkl.Dense(256, activation='tanh', use_bias = True),
+    tfkl.Dense(512, activation='tanh', use_bias = True),
+    tfkl.Dense(512, activation='tanh', use_bias = True),
+    tfkl.Dense(K, activation=None),])
+
+print("Built the model.")
+
+# --- TRAIN MODEL ---
+
+LOG_FILE = "log.csv"
+CHECKPOINT_FILE = "checkpoint_epoch_{epoch:02d}/weights"
+TRAINED_FILE = "trained/weights"
+
+# Training configuration
+
+LOSS = tf.keras.losses.MeanSquaredError(reduction="sum_over_batch_size", name="mean_squared_error")
+OPTIMISER = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
+VALIDATION_SPLIT = 0.2
+
+# Callbacks
+CSV_LOGGER = cb.CSVLogger(MODEL_DIR + LOG_FILE)
+BATCHES_PER_EPOCH = int(
+    np.ceil(X_.shape[0] / BATCH_SIZE * (1 - VALIDATION_SPLIT)))
+CHECKPOINTING = cb.ModelCheckpoint(
+    MODEL_DIR + CHECKPOINT_FILE,
+    save_freq=10 * BATCHES_PER_EPOCH,
+    verbose=1,
+    save_weights_only=True)
+EARLY_STOPPING = cb.EarlyStopping(monitor="val_loss",
+                                  patience=PATIENCE, min_delta=0.0)
+CALLBACKS = [CHECKPOINTING, CSV_LOGGER, EARLY_STOPPING]
+
+# model compilation and training
+model.compile(loss=LOSS, optimizer=OPTIMISER)
+
+History = model.fit(
+    X_,
+    Y_,
+    epochs=EPOCHS,
+    callbacks=CALLBACKS,
+    batch_size=BATCH_SIZE,
+    shuffle=True,
+    validation_split=VALIDATION_SPLIT,
+    verbose=2,
+)
+
+print('model trained')
+model.save_weights(MODEL_DIR + TRAINED_FILE)

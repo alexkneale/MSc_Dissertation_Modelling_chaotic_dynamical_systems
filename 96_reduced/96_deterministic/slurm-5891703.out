@@ -1,0 +1,10 @@
+2024-08-17 22:22:47.311282: I tensorflow/core/util/port.cc:111] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-08-17 22:22:47.354963: E tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:9342] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-08-17 22:22:47.355034: E tensorflow/compiler/xla/stream_executor/cuda/cuda_fft.cc:609] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-08-17 22:22:47.355068: E tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:1518] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-08-17 22:22:47.363803: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "/mnt/lustre/e1000/home/sc130/sc130/akneale/96_reduced/96_deterministic/model_data_skill_scores.py", line 21, in <module>
+    from data_generator_nn_63 import x0_dx0_array_63
+ModuleNotFoundError: No module named 'data_generator_nn_63'
