@@ -1,0 +1,17 @@
+/mnt/lustre/e1000/home/sc130/sc130/akneale/63/skill_scores.py:83: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  log[traj] = log_score(end, X)
+/mnt/lustre/e1000/home/sc130/sc130/akneale/63/skill_scores.py:106: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  log[traj] = log_score(end, X)
+/mnt/lustre/e1000/home/sc130/sc130/akneale/63/skill_scores.py:129: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  log[traj] = log_score(end, X)
+/mnt/lustre/e1000/home/sc130/sc130/akneale/63/skill_scores.py:151: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  log[traj] = log_score(end, X)
+186.51489089193876
+0.8317539723261366
+1749.795320757482
+0.1988410788545138
+1708.9248704125428
+0.19909238422362882
+180.38158253574716
+0.8321999849856068
+Data has been written to skill_scores.csv
